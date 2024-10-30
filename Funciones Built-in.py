@@ -117,3 +117,83 @@ print(b)
 
 b = bytes([72, 101, 108, 108, 111])  # Inicializando con una lista de enteros
 print(b)
+
+
+print("========================================")
+
+#callable se utiliza para determinar si un objeto se puede invocar o llamar como una función. Es útil para verificar si un objeto tiene la capacidad de ser llamado, lo que significa que puede ser ejecutado como una función o un método.
+# Ejemplo 1: Funciones
+def my_function():
+    return "Hola"
+
+print(callable(my_function))  # Salida: True
+
+# Ejemplo 2: Clases
+class MyClass:
+    pass
+
+print(callable(MyClass))  # Salida: True
+
+# Creando una instancia de MyClass
+instance = MyClass()
+print(callable(instance))  # Salida: False, porque no se ha definido __call__
+
+# Ejemplo 3: Clases con __call__
+class CallableClass:
+    def __call__(self):
+        return "Soy invocable"
+
+callable_instance = CallableClass()
+print(callable(callable_instance))  # Salida: True, porque tiene un método __call__
+
+# Ejemplo 4: Tipos de datos no invocables
+number = 42
+print(callable(number))  # Salida: False
+
+text = "Hola"
+print(callable(text))  # Salida: False
+
+print("========================================")
+
+#chr  se utiliza para convertir un número entero que representa un punto de código Unicode en su correspondiente carácter de cadena. Esta función es particularmente útil cuando se trabaja con codificaciones y representaciones de caracteres, ya que permite obtener el carácter asociado a un valor específico en el estándar Unicode.
+# Ejemplo 1: Carácter 'a'
+code_point_a = 97
+char_a = chr(code_point_a)
+print(char_a)  # Salida: 'a'
+
+# Ejemplo 2: Carácter '€'
+code_point_euro = 8364
+char_euro = chr(code_point_euro)
+print(char_euro)  # Salida: '€'
+
+# Ejemplo 3: Carácter de un emoji
+code_point_smiling_face = 128512  # Código Unicode para 😀
+char_smiling_face = chr(code_point_smiling_face)
+print(char_smiling_face)  # Salida: '😀'
+
+# Ejemplo 4: Valor fuera de rango
+try:
+    char_invalid = chr(1114112)  # Fuera del rango válido
+except ValueError as e:
+    print(e)  # Salida: chr() arg not in range(0x110000)
+
+print("========================================")
+#classmethod Un método de clase es un tipo especial de método en la programación orientada a objetos que pertenece a la clase en sí misma, no a las instancias de esa clase. A diferencia de un método de instancia, que actúa sobre un objeto o instancia específica, un método de clase actúa sobre la clase como un todo. Este método recibe la clase como su primer argumento, en lugar de una instancia.
+class Persona:
+    numero_de_personas = 0  # Atributo de clase
+
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+        Persona.numero_de_personas += 1  # Incrementar el número de personas cada vez que se crea una instancia
+
+    @classmethod
+    def mostrar_numero_de_personas(cls):  # Método de clase
+        print(f"Hay {cls.numero_de_personas} personas.")
+
+# Crear algunas instancias
+persona1 = Persona("Alice", 30)
+persona2 = Persona("Bob", 25)
+
+# Llamar al método de clase sin crear una instancia
+Persona.mostrar_numero_de_personas()  # Salida: Hay 2 personas.
