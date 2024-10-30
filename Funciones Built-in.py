@@ -40,3 +40,48 @@ print(any(lista_vacia)) # Retorna False, ya que una lista vacía se considera fa
 
 print("========================================")
 
+#ASCII se usa pra pasar una cadena de texto a su 127 letras o numero su forma inglesa, siempre empiezan con / invertido
+# Texto con caracteres no ASCII
+texto = 'Héllo, Привет, 你好'
+
+# Uso de ascii()
+resultado = ascii(texto)
+
+# Imprimir el texto
+print(texto)
+# Imprimir el resultado
+print(resultado)
+
+print("========================================")
+
+# Funcion bin, convierte el numero a su forma decimal
+print(bin(3))  # 3 en decimal es 11 en binario
+print(bin(-10))  # -10 en decimal es -1010 en binario
+
+print("========================================")
+
+#Clase bool, cualquiero valor que sea vacido, nulo sera false
+print(bool())  # Sin argumento
+print(bool(0))      # El número 0 es falso
+print(bool(""))     # La cadena vacía es falsa
+print(bool([]))     # La lista vacía es falsa
+print(bool(None))   # None es falso
+
+print(bool(1))      # El número 1 es verdadero
+print(bool("Hola")) # Las cadenas no vacías son verdaderas
+print(bool([1, 2])) # Las listas no vacías son verdaderas
+
+print("========================================")
+
+#breakpoint es una funcion para detener el programa y poder moverse desde ese punto
+def ejemplo():
+    x = 10
+    y = 20
+    breakpoint()  # Se detendrá aquí para iniciar el depurador y se manneja con {n(n (next)),c(c (continue)),q(q (quit),p(p variable)}
+    z = x + y
+    print(z)
+
+ejemplo()
+
+print("========================================")
+
