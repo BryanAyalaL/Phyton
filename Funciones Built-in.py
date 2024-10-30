@@ -77,7 +77,7 @@ print("========================================")
 def ejemplo():
     x = 10
     y = 20
-    breakpoint()  # Se detendrá aquí para iniciar el depurador y se manneja con {n(n (next)),c(c (continue)),q(q (quit),p(p variable)}
+    ## breakpoint()  # Se detendrá aquí para iniciar el depurador y se manneja con {n(n (next)),c(c (continue)),q(q (quit),p(p variable)}
     z = x + y
     print(z)
 
@@ -85,3 +85,35 @@ ejemplo()
 
 print("========================================")
 
+#bytearray es una secuencia mutable de bytes, adecuada para situaciones donde necesitas modificar el contenido.
+ba = bytearray("Hola", "utf-8")
+print(ba)
+ba = bytearray(5)  # Crea un bytearray de 5 bytes, todos inicializados en 0
+print(ba)
+ba = bytearray(b'Hola Mundo')  # Inicializando desde un objeto bytes
+print(ba)
+ba = bytearray([72, 101, 108, 108, 111])  # Inicializando con una lista de enteros
+print(ba)
+ba = bytearray()  # Inicializando sin argumentos
+print(ba)
+ba = bytearray(b"Hola")
+ba[0] = 104  # Cambiando el primer byte
+print(ba)
+ba = bytearray(b"Hola")
+ba.append(33)  # Agrega el byte del signo de exclamación
+print(ba)
+
+print("========================================")
+
+#bytes es una secuencia inmutable de bytes, ideal para datos que no necesitan ser modificados.
+b = bytes("Hola", "utf-8")
+print(b)
+
+b = bytes(5)  # Crea un objeto bytes de 5 bytes, todos inicializados en 0
+print(b)
+
+b = bytes(bytearray(b'Hola Mundo'))  # Inicializando desde un bytearray
+print(b)
+
+b = bytes([72, 101, 108, 108, 111])  # Inicializando con una lista de enteros
+print(b)
