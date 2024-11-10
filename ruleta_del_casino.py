@@ -1,5 +1,41 @@
 import random
 
+def crear_ruleta():
+    ruleta={}
+    ruleta[0]="Verde"
+    ruleta['00']="Verde"
+    x=0
+    j=1
+    for i in range(1,38,9):
+        x ^= 1
+        #print(f"i es igual a: {i}")
+        while j<i and x==1:
+            if j%2==0  and j!=0:
+                ruleta[j]="rojo"
+                print(f"numero: {j} es de color: {ruleta[j]}")
+                j+=1
+            else:
+                ruleta[j]="negro"
+                print(f"numero: {j} es de color: {ruleta[j]}")
+                j+=1
+                
+                
+        while j <=i and x==0:
+            if j%2==0 and j!=0:
+                ruleta[j]="negro"
+                print(f"numero: {j} es de color: {ruleta[j]}")
+                j+=1
+            else :
+                ruleta[j]="rojo"
+                print(f"numero: {j} es de color: {ruleta[j]}")
+                j+=1
+
+        
+
+
+ruleta=crear_ruleta()
+
+"""
 colores=["rojo","negro"]
 numeros=range(0,37)
 
@@ -24,3 +60,4 @@ elif color_ganador==color_usuario:
 else:
     print("Has perdido")
 
+"""
