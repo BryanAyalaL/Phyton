@@ -36,7 +36,7 @@ def crear_ruleta():
                 ruleta[j] = "rojo"
             else:
                 ruleta[j] = "negro"
-            print(f"numero: {j} es de color: {ruleta[j]}")
+            #print(f"numero: {j} es de color: {ruleta[j]}")
             j += 1
 
         # Para los bloques donde x == 0, los números pares son negros y los impares rojos
@@ -45,7 +45,7 @@ def crear_ruleta():
                 ruleta[j] = "negro"
             else:
                 ruleta[j] = "rojo"
-            print(f"numero: {j} es de color: {ruleta[j]}")
+            #print(f"numero: {j} es de color: {ruleta[j]}")
             j += 1
     return ruleta
 
@@ -91,7 +91,7 @@ def pedir_columna():
             print("Selección inválida. Por favor elige 1, 2 o 3.")
 
 # Función para apostar en la columna
-def apostar_columna(ruleta):
+def apostar_columna(ruleta,jugador):
     print("\nHas seleccionado: Columna - Todos los números en una línea")
     print("Elige una columna para apostar:")
     print("1. Columna 1 (1, 4, 7, ..., 34)")
@@ -100,6 +100,7 @@ def apostar_columna(ruleta):
 
     # Pedir la elección de columna al usuario
     columna_elegida = pedir_columna()
+    apuesta = float(input(f"{jugador['nombre']}, ingresa la cantidad a apostar: "))
 
     # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
     numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
@@ -112,56 +113,68 @@ def apostar_columna(ruleta):
     elif (columna_elegida == "1" and numero_ganador % 3 == 1) or \
        (columna_elegida == "2" and numero_ganador % 3 == 2) or \
        (columna_elegida == "3" and numero_ganador % 3 == 0):
-        print("¡Felicidades, has ganado la apuesta en la columna seleccionada!")
+        ganancia = apuesta * 2
+        jugador["saldo"] += ganancia
+        print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
     else:
-        print("Lo siento, has perdido la apuesta en la columna.")
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
 
-def prueba():
-    for i in range(60):
-        # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
-        numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
-        color_ganador = ruleta[numero_ganador]
-        print(f"Número ganador: {numero_ganador} (Color: {color_ganador})")
 
-# Ejemplo de ejecucióng
+# Ejemplo de ejecución
+def opcion (ruleta,jugadores,jugador):
 
-ruleta = crear_ruleta()
-print("Ruleta completa:", ruleta)
+    while True:
+        opcion = input("Selecciona el tipo de apuesta (0 para salir): ")
+        if opcion == "0":
+            print(f"{jugador['nombre']} ha decidido salir del juego.")
+            return False
+        elif opcion == "1":
+            print("Apuesta en columna")
+            apostar_columna(ruleta,jugador)
+            return True
+        elif opcion == "2":
+            print("Has seleccionado: Docena - Todos los números de la docena")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "3":
+            print("Has seleccionado: Apuestas pares - Apuesta al negro o rojo")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "4":
+            print("Has seleccionado: Un Número - Apuesta a un número específico")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "5":
+            print("Has seleccionado: Dos Números - Apuesta a dos números adyacentes")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "6":
+            print("Has seleccionado: Tres Números - Apuesta a tres números en fila")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "7":
+            print("Has seleccionado: Cuatro Números - Apuesta a cuatro números en cuadro")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "8":
+            print("Has seleccionado: Cinco Números - Apuesta a cinco números específicos")
+            # Agrega la lógica específica para esta apuesta
+        elif opcion == "9":
+            print("Has seleccionado: Seis Números - Apuesta a seis números consecutivos")
+            # Agrega la lógica específica para esta apuesta
+        else:
+            print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
 
-while True:
-    print("\nBienvenido a la ruleta de Bryan's Casino")
+def jugar_ruleta(ruleta, jugadores, turno=0):
+    if not jugadores:
+        print("No hay jugadores. Finalizando el juego.")
+        return
+    
+    jugador = jugadores[turno % len(jugadores)]
+    print(f"\nTurno de {jugador['nombre']} - Saldo: {jugador['saldo']}")
     menu()
-    opcion = input("Selecciona el tipo de apuesta (0 para salir): ")
-    if opcion == "0":
-        print("Gracias por jugar. ¡Hasta la próxima!")
-        break
-    elif opcion == "1":
-        print("Has seleccionado: Columna - Todos los números en una línea")
-        apostar_columna(ruleta)
-    elif opcion == "2":
-        print("Has seleccionado: Docena - Todos los números de la docena")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "3":
-        print("Has seleccionado: Apuestas pares - Apuesta al negro o rojo")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "4":
-        print("Has seleccionado: Un Número - Apuesta a un número específico")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "5":
-        print("Has seleccionado: Dos Números - Apuesta a dos números adyacentes")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "6":
-        print("Has seleccionado: Tres Números - Apuesta a tres números en fila")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "7":
-        print("Has seleccionado: Cuatro Números - Apuesta a cuatro números en cuadro")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "8":
-        print("Has seleccionado: Cinco Números - Apuesta a cinco números específicos")
-        # Agrega la lógica específica para esta apuesta
-    elif opcion == "9":
-        print("Has seleccionado: Seis Números - Apuesta a seis números consecutivos")
-        # Agrega la lógica específica para esta apuesta
-    else:
-        print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
-        prueba()
+    if opcion(ruleta, jugadores, jugador):
+        jugar_ruleta(ruleta, jugadores, turno + 1)
+    
+def iniciar_juego():
+    ruleta = crear_ruleta()
+    jugadores = [{"nombre": "Jugador1", "saldo": 100}, {"nombre": "Jugador2", "saldo": 100}]
+    print("Bienvenidos a la ruleta de Bryan's Casino")
+    jugar_ruleta(ruleta, jugadores)
+
+iniciar_juego()
