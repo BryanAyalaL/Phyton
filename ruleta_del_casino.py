@@ -110,6 +110,8 @@ def apostar_columna(ruleta,jugador):
     # Determinar si el número ganador está en la columna elegida
     if numero_ganador == 0 or numero_ganador == '00':
         print("El número ganador es 0 o 00, lo que significa que no hay ganadores en la columna.")
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
     elif (columna_elegida == "1" and numero_ganador % 3 == 1) or \
        (columna_elegida == "2" and numero_ganador % 3 == 2) or \
        (columna_elegida == "3" and numero_ganador % 3 == 0):
@@ -164,12 +166,17 @@ def jugar_ruleta(ruleta, jugadores, turno=0):
     if not jugadores:
         print("No hay jugadores. Finalizando el juego.")
         return
-    
-    jugador = jugadores[turno % len(jugadores)]
+
+    jugador = jugadores[turno % len(jugadores)]  # Selecciona el jugador actual
     print(f"\nTurno de {jugador['nombre']} - Saldo: {jugador['saldo']}")
-    menu()
-    if opcion(ruleta, jugadores, jugador):
-        jugar_ruleta(ruleta, jugadores, turno + 1)
+    
+    if opcion(ruleta, jugadores, jugador):  # Si el jugador no salió, continúa el juego
+        jugar_ruleta(ruleta, jugadores, turno + 1)  # Pasa al siguiente jugador
+    else:
+        if turno + 1 < len(jugadores):  # Si no es el último jugador, pasa al siguiente
+            jugar_ruleta(ruleta, jugadores, turno + 1)
+        else:
+            print("Todos los jugadores han salido. Fin del juego.")
     
 def iniciar_juego():
     ruleta = crear_ruleta()
