@@ -60,6 +60,19 @@ def opcion (ruleta,jugadores_activos,jugador):
             return True
         else:
             print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
+def verificar_cantidad_apostar(jugador):
+    while True:
+        try:
+            cantidad = int(input(f"{jugador['nombre']}, ingresa la cantidad a apostar: "))
+            if cantidad <= 0:
+                print(f"{jugador['nombre']}, la cantidad debe ser mayor a 0.")
+            elif cantidad > jugador["saldo"]:
+                print(f"{jugador['nombre']}, no puedes apostar más de tu saldo disponible ({jugador['saldo']}).")
+            else:
+                return cantidad  # Cantidad válida, salir del bucle
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+
 
 def verificar_saldo(jugador, jugadores_activos):
     """
@@ -90,7 +103,7 @@ def apostar_columna(ruleta,jugador):
 
     # Pedir la elección de columna al usuario
     columna_elegida = pedir_numero([1, 2, 3])
-    apuesta = float(input(f"{jugador['nombre']}, ingresa la cantidad a apostar: "))
+    apuesta=verificar_cantidad_apostar(jugador)
 
     # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
     numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
