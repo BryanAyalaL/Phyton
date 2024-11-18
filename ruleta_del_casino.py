@@ -82,13 +82,13 @@ def menu():
     print("0. Salir")
 
 # Pedir la elección de columna al usuario
-def pedir_columna():
-    while True:
-        columna_elegida = input("Selecciona una columna (1, 2 o 3): ")
-        if columna_elegida in ["1", "2", "3"]:
-            return columna_elegida
-        else:
-            print("Selección inválida. Por favor elige 1, 2 o 3.")
+def pedir_numero(valores_permitidos):
+    numero_elegido = input(f"Selecciona un número de {valores_permitidos}: ")
+    if numero_elegido.isdigit() and int(numero_elegido) in valores_permitidos:
+        return int(numero_elegido)
+    else:
+        print(f"Selección inválida. Por favor elige un número de {valores_permitidos}.")
+        return pedir_numero(valores_permitidos)
 
 # Función para apostar en la columna
 def apostar_columna(ruleta,jugador):
@@ -99,7 +99,7 @@ def apostar_columna(ruleta,jugador):
     print("3. Columna 3 (3, 6, 9, ..., 36)")
 
     # Pedir la elección de columna al usuario
-    columna_elegida = pedir_columna()
+    columna_elegida = pedir_numero([1, 2, 3])
     apuesta = float(input(f"{jugador['nombre']}, ingresa la cantidad a apostar: "))
 
     # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
