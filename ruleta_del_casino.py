@@ -124,12 +124,11 @@ def apostar_columna(ruleta,jugador):
 
 
 # Ejemplo de ejecución
-def opcion (ruleta,jugadores,jugador):
+def opcion (ruleta,jugadores_activos,jugador):
 
     while True:
         opcion = input("Selecciona el tipo de apuesta (0 para salir): ")
         if opcion == "0":
-            print(f"{jugador['nombre']} ha decidido salir del juego.")
             return False
         elif opcion == "1":
             print("Apuesta en columna")
@@ -162,26 +161,32 @@ def opcion (ruleta,jugadores,jugador):
         else:
             print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
 
-def jugar_ruleta(ruleta, jugadores, turno=0):
-    if not jugadores:
-        print("No hay jugadores. Finalizando el juego.")
-        return
+def jugar_ruleta(ruleta, jugadores):
+    turno = 0
+    jugadores_activos = jugadores.copy()  # Copia para evitar modificar la lista original
 
-    jugador = jugadores[turno % len(jugadores)]  # Selecciona el jugador actual
-    print(f"\nTurno de {jugador['nombre']} - Saldo: {jugador['saldo']}")
-    
-    if opcion(ruleta, jugadores, jugador):  # Si el jugador no salió, continúa el juego
-        jugar_ruleta(ruleta, jugadores, turno + 1)  # Pasa al siguiente jugador
-    else:
-        if turno + 1 < len(jugadores):  # Si no es el último jugador, pasa al siguiente
-            jugar_ruleta(ruleta, jugadores, turno + 1)
-        else:
-            print("Todos los jugadores han salido. Fin del juego.")
-    
-def iniciar_juego():
+    while jugadores_activos:
+        jugador = jugadores_activos[turno % len(jugadores_activos)]
+        print(f"\nTurno de {jugador['nombre']} - Saldo: {jugador['saldo']}")
+        
+        menu()
+        resultado = opcion(ruleta, jugadores_activos, jugador)
+        
+        if not resultado:
+            print(f"{jugador['nombre']} ha sido eliminado del juego.")
+            jugadores_activos.remove(jugador)
+            if not jugadores_activos:
+                print("Todos los jugadores han salido. Fin del juego.")
+                break
+            else:
+                turno -= 1  # Ajusta el turno ya que se eliminó un jugador
+        
+        turno += 1
+
+# Ejemplo de uso
+if __name__ == "__main__":
     ruleta = crear_ruleta()
     jugadores = [{"nombre": "Jugador1", "saldo": 100}, {"nombre": "Jugador2", "saldo": 100}]
     print("Bienvenidos a la ruleta de Bryan's Casino")
     jugar_ruleta(ruleta, jugadores)
 
-iniciar_juego()
