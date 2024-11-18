@@ -43,29 +43,21 @@ def opcion (ruleta,jugadores_activos,jugador):
             apostar_columna(ruleta,jugador)
             return True
         elif opcion == "2":
-            print("Has seleccionado: Docena - Todos los números de la docena")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "3":
-            print("Has seleccionado: Apuestas pares - Apuesta al negro o rojo")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "4":
-            print("Has seleccionado: Un Número - Apuesta a un número específico")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "5":
-            print("Has seleccionado: Dos Números - Apuesta a dos números adyacentes")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "6":
-            print("Has seleccionado: Tres Números - Apuesta a tres números en fila")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "7":
-            print("Has seleccionado: Cuatro Números - Apuesta a cuatro números en cuadro")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "8":
-            print("Has seleccionado: Cinco Números - Apuesta a cinco números específicos")
-            # Agrega la lógica específica para esta apuesta
+            return True
         elif opcion == "9":
-            print("Has seleccionado: Seis Números - Apuesta a seis números consecutivos")
-            # Agrega la lógica específica para esta apuesta
+            return True
         else:
             print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
 
@@ -127,21 +119,26 @@ def jugar_ruleta(ruleta, jugadores):
     while jugadores_activos:
         jugador = jugadores_activos[turno % len(jugadores_activos)]
 
+        if not verificar_saldo(jugador, jugadores_activos):
+            if not jugadores_activos:
+                print("Todos los jugadores han salido. Fin del juego.")
+                break
+            turno -= 1
+            continue
+
         print(f"\nTurno de {jugador['nombre']} - Saldo: {jugador['saldo']}")
-        
         menu()
         resultado = opcion(ruleta, jugadores_activos, jugador)
         
         if not resultado:
-            print(f"{jugador['nombre']} ha sido eliminado del juego.")
+            print(f"{jugador['nombre']} ha salido voluntariamente del juego.")
             jugadores_activos.remove(jugador)
             if not jugadores_activos:
                 print("Todos los jugadores han salido. Fin del juego.")
                 break
-            else:
-                turno -= 1  # Ajusta el turno ya que se eliminó un jugador
-        
+            turno -= 1
         turno += 1
+
 
 # Ejemplo de uso
 if __name__ == "__main__":
