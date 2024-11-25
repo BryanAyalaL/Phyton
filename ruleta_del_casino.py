@@ -43,6 +43,8 @@ def opcion (ruleta,jugadores_activos,jugador):
             apostar_columna(ruleta,jugador)
             return True
         elif opcion == "2":
+            print("Apuesta en docena")
+            apostar_docena(ruleta,jugador)
             return True
         elif opcion == "3":
             return True
@@ -124,6 +126,39 @@ def apostar_columna(ruleta,jugador):
     else:
         jugador["saldo"] -= apuesta
         print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
+
+# Función para apostar en una docena
+def apostar_docena(ruleta,jugador):
+    print("\nHas seleccionado: docena - grupos de doce")
+    print("Elige una docena para apostar:")
+    print("1. Docena 1 (1 al 12)")
+    print("2. Docena 2 (13 al 24)")
+    print("3. Docena 3 (25 al 36)")
+
+    # Pedir la elección de columna al usuario
+    docena_elegida = pedir_numero([1, 2, 3])
+    apuesta=verificar_cantidad_apostar(jugador)
+
+    # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
+    numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
+    color_ganador = ruleta[numero_ganador]
+    print(f"Número ganador: {numero_ganador} (Color: {color_ganador})")
+
+    # Determinar si el número ganador está en la columna elegida
+    if numero_ganador == 0 or numero_ganador == '00':
+        print("El número ganador es 0 o 00, lo que significa que no hay ganadores en la docena.")
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
+    elif (docena_elegida == 1 and numero_ganador <13) or \
+       (docena_elegida == 2 and 12<numero_ganador>25 ) or \
+       (docena_elegida == 3 and 24<numero_ganador>37):
+        ganancia = apuesta * 2
+        jugador["saldo"] += ganancia
+        print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
+    else:
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
+
 
 def jugar_ruleta(ruleta, jugadores):
     turno = 0

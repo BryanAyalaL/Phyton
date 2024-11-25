@@ -1,0 +1,6 @@
+En la ruleta del casino se puede mejorar la recursividad:
+
+1) Haciendo que la funcion "verificar_cantidad_apostar" no se llamen desde la funciones de apostar si no en la funcion pedir_numero", ahorrando un par de lineas 
+
+2) Hacer una funcion que eliga el numeor ganador en vez de elgirlo cada vez que entra a una funcion de apostar
+
