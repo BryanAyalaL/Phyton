@@ -23,7 +23,7 @@ def menu():
     print("\n------MENU DE APUESTAS------")
     print("1. Columna - Todos los números en una línea (Pago: 2:1)")
     print("2. Docena - Todos los números de la docena (Pago: 2:1)")
-    print("3. Apuestas pares - Apuesta al negro o rojo (Pago: 1:1)")
+    print("3. Color - Apuesta al negro o rojo (Pago: 1:1)")
     print("4. Un Número - Apuesta a un número específico (Pago: 35:1)")
     print("5. Dos Números - Apuesta a dos números adyacentes (Pago: 17:1)")
     print("6. Tres Números - Apuesta a tres números en fila (Pago: 11:1)")
@@ -51,6 +51,8 @@ def opcion (ruleta,jugadores_activos,jugador):
             apostar_color(ruleta, jugador)
             return True
         elif opcion == "4":
+            print("Apuesta un numero")
+            apostar_un_numero(ruleta, jugador)
             return True
         elif opcion == "5":
             return True
@@ -170,10 +172,14 @@ def verificar_color(ruleta):
         else:
             print("Error, datos no válidos. Intenta de nuevo.") 
 
-# Funcion para aapostar en pares 
+# Función para aapostar en color 
 def apostar_color(ruleta, jugador):
     print("\nHas seleccionado: color - rojo o negro")
+
+    #verifica el color
     color_usuario=verificar_color(ruleta)
+
+    #verifica la cantidad a apostar
     apuesta=verificar_cantidad_apostar(jugador)
 
     # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
@@ -183,6 +189,38 @@ def apostar_color(ruleta, jugador):
 
     if color_ganador==color_usuario:
         ganancia = apuesta
+        jugador["saldo"] += ganancia
+        print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
+    else:
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
+
+# Función para realizar una apuesta a un número específico.
+def apostar_un_numero(ruleta,jugador):
+    numero_usuario = input("Elige un número (0, '00' o del 1 al 36): ")
+    print("Entrada original:", numero_usuario)  # Muestra la entrada exacta
+
+    # Verifica que la entrada sea válida
+    if numero_usuario not in ["0", "00"] and not (numero_usuario.isdigit() and 1 <= int(numero_usuario) <= 36):
+        print("Entrada inválida. Intenta de nuevo.")
+        return apostar_un_numero(ruleta,jugador)
+    print(numero_usuario, type(numero_usuario))
+    # Mantén "00" como cadena, y convierte otros números válidos a enteros
+    if numero_usuario != "00" and numero_usuario.isdigit():
+        numero_usuario = int(numero_usuario)  # Convertimos solo si es un número válido del 1 al 36 o "0"
+
+    print("Valor procesado:", numero_usuario)  # Muestra cómo se interpreta internamente
+    #verifica la cantidad a apostar
+    apuesta=verificar_cantidad_apostar(jugador)
+
+    # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
+    numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
+    color_ganador = ruleta[numero_ganador]
+    print(f"Número ganador: {numero_ganador} (Color: {color_ganador})")
+    print(numero_usuario, type(numero_usuario))
+    # Compara el número del usuario con el número ganador
+    if numero_usuario == numero_ganador:
+        ganancia = apuesta * 35
         jugador["saldo"] += ganancia
         print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
     else:
