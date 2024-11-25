@@ -47,6 +47,8 @@ def opcion (ruleta,jugadores_activos,jugador):
             apostar_docena(ruleta,jugador)
             return True
         elif opcion == "3":
+            print("Apuesta en color")
+            apostar_color(ruleta, jugador)
             return True
         elif opcion == "4":
             return True
@@ -159,6 +161,33 @@ def apostar_docena(ruleta,jugador):
         jugador["saldo"] -= apuesta
         print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
 
+# Funcion para validar el color
+def verificar_color(ruleta):
+    color_usuario = input("Elige un color (rojo o negro): ").lower()
+    if color_usuario in ruleta.values():
+        return color_usuario  # Devuelve el color válido
+    else:
+        print("Error, datos no válidos. Intenta de nuevo.")
+        verificar_color(ruleta)    
+
+# Funcion para aapostar en pares 
+def apostar_color(ruleta, jugador):
+    print("\nHas seleccionado: color - rojo o negro")
+    color_usuario=verificar_color(ruleta)
+    apuesta=verificar_cantidad_apostar(jugador)
+
+    # Generar un número aleatorio entre 0, '00' y 1 a 36 para simular el giro de la ruleta
+    numero_ganador = random.choice([0, '00'] + list(range(1, 37)))
+    color_ganador = ruleta[numero_ganador]
+    print(f"Número ganador: {numero_ganador} (Color: {color_ganador})")
+
+    if color_ganador==color_usuario:
+        ganancia = apuesta
+        jugador["saldo"] += ganancia
+        print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
+    else:
+        jugador["saldo"] -= apuesta
+        print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
 
 def jugar_ruleta(ruleta, jugadores):
     turno = 0
