@@ -152,8 +152,8 @@ def apostar_docena(ruleta,jugador):
         jugador["saldo"] -= apuesta
         print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
     elif (docena_elegida == 1 and numero_ganador <13) or \
-       (docena_elegida == 2 and 12<numero_ganador>25 ) or \
-       (docena_elegida == 3 and 24<numero_ganador>37):
+       (docena_elegida == 2 and 12<numero_ganador<25 ) or \
+       (docena_elegida == 3 and 24<numero_ganador<37):
         ganancia = apuesta * 2
         jugador["saldo"] += ganancia
         print(f"¡Felicidades {jugador['nombre']}! Ganaste {ganancia}. Nuevo saldo: {jugador['saldo']}")
