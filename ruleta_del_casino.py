@@ -55,17 +55,29 @@ def opcion (ruleta,jugadores_activos,jugador):
             apostar_un_numero(ruleta, jugador)
             return True
         elif opcion == "5":
+            print("Apuesta dos numeros")
+            apostar_dos_numeros(ruleta, jugador)
             return True
         elif opcion == "6":
+            print("Apuesta tres numeros")
+            apostar_tres_numeros(ruleta, jugador)
             return True
         elif opcion == "7":
+            print("Apuesta cuatro numeros")
+            apostar_cuatro_numeros(ruleta, jugador)
             return True
         elif opcion == "8":
+            print("Apuesta ucinco numeros")
+            apostar_cinco_numeros(ruleta, jugador)
             return True
         elif opcion == "9":
+            print("Apuesta seis numeros")
+            apostar_seis_numeros(ruleta, jugador)
             return True
         else:
             print("Opción inválida. Por favor, selecciona un número del 0 al 9.")
+
+#verifica la cantidad del jugador a apostar           
 def verificar_cantidad_apostar(jugador):
     while True:
         try:
@@ -79,7 +91,7 @@ def verificar_cantidad_apostar(jugador):
         except ValueError:
             print("Por favor, ingresa un número válido.")
 
-
+#verifica el saldo del jugador
 def verificar_saldo(jugador, jugadores_activos):
     """
     Verifica si el jugador tiene saldo suficiente. Si no, lo elimina del juego.
@@ -227,6 +239,66 @@ def apostar_un_numero(ruleta,jugador):
         jugador["saldo"] -= apuesta
         print(f"Lo siento, {jugador['nombre']}, perdiste la apuesta. Nuevo saldo: {jugador['saldo']}")
 
+def verificar_numeros_usuario(numeros, cantidad):
+    if len(numeros) != cantidad:
+        return False
+    for n in numeros:
+        if not n.isdigit() or (n != '00' and (int(n) < 0 or int(n) > 36)):
+            return False
+    return True
+
+def generar_numero_ganador():
+    return random.choice([0, '00'] + list(range(1, 37)))
+
+def procesar_apuesta(numeros_usuario, apuesta, jugador, multiplicador):
+    numero_ganador = generar_numero_ganador()
+    print(f"Número ganador: {numero_ganador}")
+
+    if str(numero_ganador) in numeros_usuario:
+        ganancia = apuesta * multiplicador
+        jugador["saldo"] += ganancia
+        print(f"¡Ganaste! Tu ganancia es {ganancia}. Nuevo saldo: {jugador['saldo']}")
+    else:
+        jugador["saldo"] -= apuesta
+        print(f"Perdiste. Nuevo saldo: {jugador['saldo']}")
+
+def apostar_numeros(ruleta, jugador, cantidad, multiplicador):
+    numeros_usuario = input(f"Elige {cantidad} números separados por coma: ").split(',')
+
+    if not verificar_numeros_usuario(numeros_usuario, cantidad):
+        print("Entrada inválida. Intenta de nuevo.")
+        return apostar_numeros(ruleta, jugador, cantidad, multiplicador)
+
+    apuesta = verificar_cantidad_apostar(jugador)
+    procesar_apuesta(numeros_usuario, apuesta, jugador, multiplicador)
+
+def apostar_automaticamente(ruleta, jugador, cantidad, multiplicador):
+    while jugador["saldo"] > 0:
+        numeros_usuario = "00,0,1,2,3,4"
+        print(f"Apostando a los números: {(numeros_usuario)}")
+
+        apuesta = verificar_cantidad_apostar(jugador)
+        procesar_apuesta(numeros_usuario, apuesta, jugador, multiplicador)
+
+        if jugador["saldo"] <= 0:
+            print("Te has quedado sin saldo. Fin del juego.")
+            break
+
+def apostar_dos_numeros(ruleta, jugador):
+    apostar_numeros(ruleta, jugador, 2, 17)
+
+def apostar_tres_numeros(ruleta, jugador):
+    apostar_numeros(ruleta, jugador, 3, 11)
+
+def apostar_cuatro_numeros(ruleta, jugador):
+    apostar_numeros(ruleta, jugador, 4, 8)
+
+def apostar_cinco_numeros(ruleta, jugador):
+    apostar_numeros(ruleta, jugador, 5, 6)
+
+def apostar_seis_numeros(ruleta, jugador):
+    apostar_automaticamente(ruleta, jugador, 6, 5)
+        
 def jugar_ruleta(ruleta, jugadores):
     turno = 0
     jugadores_activos = jugadores.copy()  # Copia para evitar modificar la lista original
